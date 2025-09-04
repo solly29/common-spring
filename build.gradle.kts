@@ -1,13 +1,13 @@
 plugins {
-    kotlin("jvm") version "1.9.25"
-    kotlin("plugin.spring") version "1.9.25"
-    id("org.springframework.boot") version "3.5.5"
+    kotlin("jvm") version "1.6.21"
+    kotlin("plugin.spring") version "1.6.21"
+    id("org.springframework.boot") version "2.7.18"
     id("io.spring.dependency-management") version "1.1.7"
     id("java-library")
 }
 
 group = "com.github.solly29"
-version = "0.0.3-SNAPSHOT"
+version = "0.0.4-SNAPSHOT"
 description = "CommonSpring"
 
 
@@ -36,5 +36,5 @@ dependencies {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
+    kotlinOptions.jvmTarget = "1.8"
 }
