@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.github.solly29"
-version = "0.0.2-SNAPSHOT"
+version = "0.0.3-SNAPSHOT"
 description = "CommonSpring"
 
 
@@ -21,7 +21,8 @@ tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar
 }
 
 tasks.jar {
-    enabled = true
+    archiveClassifier.set("") // 'plain'과 같은 분류자 제거
+    archiveFileName.set("${project.name}-${project.version}.jar")
 }
 
 repositories {
