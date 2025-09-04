@@ -6,8 +6,8 @@ plugins {
     id("java-library")
 }
 
-group = "com.solly"
-version = "0.0.1-SNAPSHOT"
+group = "com.github.solly29"
+version = "0.0.2-SNAPSHOT"
 description = "CommonSpring"
 
 
@@ -18,6 +18,10 @@ java {
 
 tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
     enabled = false
+}
+
+tasks.jar {
+    enabled = true
 }
 
 repositories {
