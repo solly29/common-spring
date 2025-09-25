@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.github.solly29"
-version = "0.0.4-SNAPSHOT"
+version = "0.0.6-SNAPSHOT"
 description = "CommonSpring"
 
 
@@ -31,7 +31,11 @@ repositories {
 
 dependencies {
     api("org.springframework.boot:spring-boot-starter")
+    api("org.springframework.boot:spring-boot-starter-web")
     api("org.springframework.boot:spring-boot-starter-aop")
+
+    api("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1")
+    api("org.springframework.boot:spring-boot-starter-data-jpa")
     api("com.fasterxml.jackson.core:jackson-databind")
 }
 

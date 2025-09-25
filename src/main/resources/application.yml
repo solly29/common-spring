@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: CommonSpring
+
+common:
+  logging:
+    logging: true
+    request-log: true
+    response-log: true
