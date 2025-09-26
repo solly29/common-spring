@@ -18,14 +18,12 @@ import org.springframework.boot.context.properties.bind.Binder
 import org.springframework.boot.jdbc.DataSourceBuilder
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
-import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment
 import org.springframework.jdbc.datasource.DataSourceTransactionManager
 import org.springframework.transaction.PlatformTransactionManager
 import java.util.function.Supplier
 import javax.sql.DataSource
 
-@Configuration
 class MultiMybatisConfig : BeanDefinitionRegistryPostProcessor, ApplicationContextAware {
 
     private lateinit var environment: Environment

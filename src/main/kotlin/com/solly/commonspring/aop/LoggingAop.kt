@@ -16,8 +16,6 @@ import java.lang.reflect.Method
 import java.util.stream.Stream
 
 @Aspect
-@Component
-@EnableConfigurationProperties(CommonLogProperties::class)
 class LoggingAop (
     private val logProperties: CommonLogProperties,
 ) {
@@ -41,6 +39,8 @@ class LoggingAop (
             joinPoint.args.forEach {
                 try {
                     if(it is BaseRequestVo) {
+                        infoLog("request : $it")
+                    } else {
                         infoLog("request : $it")
                     }
                 } catch (e: Exception) {
