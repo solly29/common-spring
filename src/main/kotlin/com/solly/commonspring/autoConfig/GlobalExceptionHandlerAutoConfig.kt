@@ -3,6 +3,7 @@ package com.solly.commonspring.autoConfig
 import com.solly.commonspring.advice.GlobalExceptionHandler
 import com.solly.commonspring.advice.JpaExceptionHandler
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Configuration
 class GlobalExceptionHandlerAutoConfig {
 
     @Bean
+    @ConditionalOnMissingBean(name = ["globalExceptionHandler"]) // LoggingAop가 classpath에 있을 때만
     fun globalExceptionHandler() = GlobalExceptionHandler()
 
 }
@@ -20,6 +22,7 @@ class GlobalExceptionHandlerAutoConfig {
 class JpaExceptionHandlerAutoConfig {
 
     @Bean
+    @ConditionalOnMissingBean(name = ["jpaExceptionHandler"]) // LoggingAop가 classpath에 있을 때만
     fun jpaExceptionHandler() = JpaExceptionHandler()
 
 }

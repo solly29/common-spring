@@ -7,9 +7,6 @@ import com.solly.commonspring.vo.BaseRequestVo
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.*
 import org.aspectj.lang.reflect.MethodSignature
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.*
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method

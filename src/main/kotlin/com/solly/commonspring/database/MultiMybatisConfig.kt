@@ -43,6 +43,11 @@ class MultiMybatisConfig : BeanDefinitionRegistryPostProcessor, ApplicationConte
             .orElseThrow { kotlin.IllegalStateException("Failed to bind MultiDbProperties") }
 
         properties.config.forEach { name, config ->
+
+            if(config.type != DaoType.MYBATIS) {
+                return@forEach
+            }
+
             // DataSource
             val dataSource = DataSourceBuilder.create()
                 .driverClassName(config.driverClassName)

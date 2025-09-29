@@ -23,6 +23,7 @@ import org.springframework.orm.jpa.JpaTransactionManager
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 import org.springframework.stereotype.Repository
+import javax.persistence.EntityManagerFactory
 
 @Configuration
 @ConditionalOnMissingBean
@@ -46,7 +47,7 @@ class MultiJpaConfig (
 
         properties.config.forEach { key, config ->
 
-            if(config.type == DaoType.MYBATIS) {
+            if(config.type != DaoType.JPA) {
                 return@forEach
             }
 
@@ -69,6 +70,13 @@ class MultiJpaConfig (
                 "${key}EntityManagerFactory",
                 BeanDefinitionBuilder.genericBeanDefinition(LocalContainerEntityManagerFactoryBean::class.java) {
                     emf
+                }.beanDefinition
+            )
+
+            p0.registerBeanDefinition(
+                "${key}EntityManagerFactoryObject",
+                BeanDefinitionBuilder.genericBeanDefinition(EntityManagerFactory::class.java) {
+                    emf.`object`!!
                 }.beanDefinition
             )
 
