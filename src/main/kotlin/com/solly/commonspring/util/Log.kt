@@ -1,3 +1,4 @@
+@file:JvmName("LogUtil")
 package com.solly.commonspring.util
 
 import org.slf4j.ILoggerFactory
