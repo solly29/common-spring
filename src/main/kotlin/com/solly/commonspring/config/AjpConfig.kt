@@ -3,6 +3,7 @@ package com.solly.commonspring.config
 import com.solly.commonspring.properties.AjpConfigProperties
 import org.apache.catalina.connector.Connector
 import org.apache.coyote.ajp.AbstractAjpProtocol
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Configuration
 import java.net.InetSocketAddress
 
 @Configuration
+@ConditionalOnMissingBean
 @EnableConfigurationProperties(AjpConfigProperties::class)
 @ConditionalOnProperty(value = ["tomcat.ajp.enable"], havingValue = "true", matchIfMissing = false)
 class AjpConfig (
@@ -19,7 +21,7 @@ class AjpConfig (
 
     override fun customize(factory: TomcatServletWebServerFactory?) {
         val ajpConnector = Connector(properties.protocol).apply {
-            port = properties.port.toInt()
+            port = properties.port
 
             secure = false
             allowTrace = false

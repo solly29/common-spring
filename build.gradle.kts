@@ -38,8 +38,8 @@ dependencies {
 
     api("com.fasterxml.jackson.module:jackson-module-kotlin")
 
-    api("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1")
-    api("org.springframework.boot:spring-boot-starter-data-jpa")
+    compileOnly("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1")
+    compileOnly("org.springframework.boot:spring-boot-starter-data-jpa")
     api("com.fasterxml.jackson.core:jackson-databind")
 
 //    api("org.springframework.boot:spring-boot-configuration-processor")

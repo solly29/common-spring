@@ -1,5 +1,6 @@
 package com.solly.commonspring.database
 
+import com.solly.commonspring.properties.DaoType
 import com.solly.commonspring.properties.MultiDbProperties
 import org.springframework.beans.factory.BeanFactory
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder
 import org.springframework.beans.factory.support.BeanDefinitionRegistry
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor
 import org.springframework.beans.factory.support.RootBeanDefinition
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.jdbc.DataSourceBuilder
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder
@@ -22,6 +25,8 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 import org.springframework.stereotype.Repository
 
 @Configuration
+@ConditionalOnMissingBean
+@ConditionalOnClass(name = ["javax.persistence.EntityManagerFactory"])
 @EnableConfigurationProperties(MultiDbProperties::class)
 class MultiJpaConfig (
     private val properties: MultiDbProperties,
@@ -40,6 +45,11 @@ class MultiJpaConfig (
     override fun postProcessBeanDefinitionRegistry(p0: BeanDefinitionRegistry) {
 
         properties.config.forEach { key, config ->
+
+            if(config.type == DaoType.MYBATIS) {
+                return@forEach
+            }
+
             // DataSource 생성
             val ds = DataSourceBuilder.create()
                 .url(config.jdbcUrl)

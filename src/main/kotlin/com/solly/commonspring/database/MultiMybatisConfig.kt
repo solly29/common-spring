@@ -14,16 +14,20 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory
 import org.springframework.beans.factory.support.BeanDefinitionRegistry
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor
 import org.springframework.beans.factory.support.GenericBeanDefinition
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.context.properties.bind.Binder
 import org.springframework.boot.jdbc.DataSourceBuilder
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
+import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment
 import org.springframework.jdbc.datasource.DataSourceTransactionManager
 import org.springframework.transaction.PlatformTransactionManager
 import java.util.function.Supplier
 import javax.sql.DataSource
 
+@Configuration
+@ConditionalOnClass(SqlSessionFactoryBean::class)
 class MultiMybatisConfig : BeanDefinitionRegistryPostProcessor, ApplicationContextAware {
 
     private lateinit var environment: Environment
@@ -105,6 +109,7 @@ class MultiMybatisConfig : BeanDefinitionRegistryPostProcessor, ApplicationConte
             GenericBeanDefinition().apply {
                 setBeanClass(PlatformTransactionManager::class.java)
                 instanceSupplier = Supplier { txManager }
+                setAttribute("org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean", true)
             }
         )
     }
