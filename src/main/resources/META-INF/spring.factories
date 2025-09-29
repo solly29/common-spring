@@ -1,3 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.solly.commonspring.autoConfig.CommonLoggingAutoConfiguration,\
-com.solly.commonspring.database.MultiMybatisConfig
+com.solly.commonspring.database.MultiMybatisConfig,\
+com.solly.commonspring.autoConfig.GlobalExceptionHandlerAutoConfig,\
+com.solly.commonspring.autoConfig.JpaExceptionHandlerAutoConfig
