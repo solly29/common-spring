@@ -5,7 +5,7 @@
  *
  * @author solly29
  * @see ResultVo
- * @see ResultCode
+ * @see CommonResultCode
  *
  */
 @file:JvmName("ResultUtil")
@@ -14,7 +14,6 @@ package com.solly.commonspring.util
 import com.solly.commonspring.exception.GlobalException
 import com.solly.commonspring.vo.BaseResponseVo
 import com.solly.commonspring.vo.CommonResultCode
-import com.solly.commonspring.vo.ResultCode
 import com.solly.commonspring.vo.ResultErrorVo
 import com.solly.commonspring.vo.ResultMetaData
 import com.solly.commonspring.vo.ResultVo
@@ -33,7 +32,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException
  * @receiver ResultVo로 변환할 대상 객체(BaseResponseVo를 구현하고 있어야함)
  *
  */
-fun <T : BaseResponseVo> T.successMapper(code: CommonResultCode = ResultCode.OK, msg: String = "성공", resultSize: Int = 1, totalSize: Int = 1, page: Int = 0, pageSize: Int = 0): ResultVo<T> = ResultVo(
+fun <T : BaseResponseVo> T.successMapper(code: CommonResultCode = CommonResultCode.OK, msg: String = "성공", resultSize: Int = 1, totalSize: Int = 1, page: Int = 0, pageSize: Int = 0): ResultVo<T> = ResultVo(
     success = true,
     resultCode = code.code,
     resultData = listOf(this),
@@ -58,7 +57,7 @@ fun <T : BaseResponseVo> T.successMapper(code: CommonResultCode = ResultCode.OK,
  * @receiver ResultVo로 변환할 대상 객체(BaseResponseVo를 구현하고 있어야함)
  *
  */
-fun <T : BaseResponseVo> List<T>.successMapper(code: CommonResultCode = ResultCode.OK, msg: String = "성공", resultSize: Int = size, totalSize: Int = size, page: Int = 0, pageSize: Int = 0): ResultVo<T> = ResultVo(
+fun <T : BaseResponseVo> List<T>.successMapper(code: CommonResultCode = CommonResultCode.OK, msg: String = "성공", resultSize: Int = size, totalSize: Int = size, page: Int = 0, pageSize: Int = 0): ResultVo<T> = ResultVo(
     success = true,
     resultCode = code.code,
     resultData = this,
@@ -79,7 +78,7 @@ fun <T : BaseResponseVo> List<T>.successMapper(code: CommonResultCode = ResultCo
  * @receiver ResultVo로 변환할 대상 객체(BaseResponseVo를 구현하고 있어야함)
  *
  */
-fun <T> successBlankMapper(code: CommonResultCode = ResultCode.OK, msg: String = "성공"): ResultVo<T> = ResultVo(
+fun <T> successBlankMapper(code: CommonResultCode = CommonResultCode.OK, msg: String = "성공"): ResultVo<T> = ResultVo(
     success = true,
     resultCode = code.code,
     resultMsg = msg,
@@ -94,13 +93,13 @@ fun <T> successBlankMapper(code: CommonResultCode = ResultCode.OK, msg: String =
  * @param errorMsg 에러가 발생했을때 개발자가 확인 후 조치해야하는 메시지
  *
  */
-fun <T> errorMapper(code: CommonResultCode = ResultCode.DEFAULT_ERROR, displayMsg: String = ResultCode.DEFAULT_ERROR.message, errorMsg: String? = null): ResultVo<T> = ResultVo(
+fun <T> errorMapper(code: CommonResultCode = CommonResultCode.DEFAULT_ERROR, displayMsg: String = CommonResultCode.DEFAULT_ERROR.message, errorMsg: String? = null): ResultVo<T> = ResultVo(
     success = false,
     resultCode = code.code,
     resultMsg = displayMsg,
     metadata = ResultMetaData(),
     error = ResultErrorVo(
-        type = try { (code as Enum<*>).name } catch (e: Exception) {ResultCode.DEFAULT_ERROR.name },
+        type = try { (code as Enum<*>).name } catch (e: Exception) {CommonResultCode.DEFAULT_ERROR.name },
         reason = errorMsg ?: code.message,
         errorMsg = displayMsg
     )
@@ -115,13 +114,13 @@ fun <T> errorMapper(code: CommonResultCode = ResultCode.DEFAULT_ERROR, displayMs
  * @receiver RuntimeException을 상속 받고 있는 객체
  *
  */
-fun <T : RuntimeException> T.resultErrorMapper(code: CommonResultCode = ResultCode.DEFAULT_ERROR, displayMsg: String? = null, errorMsg: String? = null): ResultVo<Nothing> = ResultVo(
+fun <T : RuntimeException> T.resultErrorMapper(code: CommonResultCode = CommonResultCode.DEFAULT_ERROR, displayMsg: String? = null, errorMsg: String? = null): ResultVo<Nothing> = ResultVo(
     success = false,
     resultCode = code.code,
     resultMsg = displayMsg ?: code.message,
     metadata = ResultMetaData(),
     error = ResultErrorVo(
-        type = this::class.simpleName ?: ResultCode.DEFAULT_ERROR.message,
+        type = this::class.simpleName ?: CommonResultCode.DEFAULT_ERROR.message,
         reason = errorMsg ?: code.message,
         errorMsg = displayMsg ?: code.message
     )
@@ -136,12 +135,12 @@ fun <T : RuntimeException> T.resultErrorMapper(code: CommonResultCode = ResultCo
 fun <T : GlobalException> T.resultErrorMapper(): ResultVo<Nothing> = ResultVo(
     success = false,
     resultCode = resultCode.code,
-    resultMsg = displayMsg ?: ResultCode.DEFAULT_ERROR.message,
+    resultMsg = displayMsg ?: CommonResultCode.DEFAULT_ERROR.message,
     metadata = ResultMetaData(),
     error = ResultErrorVo(
-        type = this::class.simpleName ?: ResultCode.DEFAULT_ERROR.message,
+        type = this::class.simpleName ?: CommonResultCode.DEFAULT_ERROR.message,
         reason = errorMsg ?: displayMsg ?: "",
-        errorMsg = displayMsg ?: ResultCode.DEFAULT_ERROR.message
+        errorMsg = displayMsg ?: CommonResultCode.DEFAULT_ERROR.message
     )
 )
 
@@ -154,13 +153,13 @@ fun <T : GlobalException> T.resultErrorMapper(): ResultVo<Nothing> = ResultVo(
  * @receiver MethodArgumentNotValidException을 상속 받고 있는 객체
  *
  */
-fun <T : MethodArgumentNotValidException> T.resultErrorMapper(code: CommonResultCode = ResultCode.VALIDATION_ERROR, errorMsg: String? = null, displayMsg: String? = null): ResultVo<Nothing> = ResultVo(
+fun <T : MethodArgumentNotValidException> T.resultErrorMapper(code: CommonResultCode = CommonResultCode.VALIDATION_ERROR, errorMsg: String? = null, displayMsg: String? = null): ResultVo<Nothing> = ResultVo(
     success = false,
     resultCode = code.code,
     resultMsg = displayMsg ?: code.message,
     metadata = ResultMetaData(),
     error = ResultErrorVo(
-        type = this::class.simpleName ?: ResultCode.DEFAULT_ERROR.message,
+        type = this::class.simpleName ?: CommonResultCode.DEFAULT_ERROR.message,
         reason = errorMsg ?: "",
         errorMsg = displayMsg ?: code.message
     )
@@ -175,13 +174,13 @@ fun <T : MethodArgumentNotValidException> T.resultErrorMapper(code: CommonResult
  * @receiver HttpMessageNotReadableException을 상속 받고 있는 객체
  *
  */
-fun <T : HttpMessageNotReadableException> T.resultErrorMapper(code: CommonResultCode = ResultCode.VALIDATION_ERROR, errorMsg: String? = null, displayMsg: String? = null): ResultVo<Nothing> = ResultVo(
+fun <T : HttpMessageNotReadableException> T.resultErrorMapper(code: CommonResultCode = CommonResultCode.VALIDATION_ERROR, errorMsg: String? = null, displayMsg: String? = null): ResultVo<Nothing> = ResultVo(
     success = false,
     resultCode = code.code,
     resultMsg = displayMsg ?: code.message,
     metadata = ResultMetaData(),
     error = ResultErrorVo(
-        type = this::class.simpleName ?: ResultCode.DEFAULT_ERROR.message,
+        type = this::class.simpleName ?: CommonResultCode.DEFAULT_ERROR.message,
         reason = errorMsg ?: "",
         errorMsg = displayMsg ?: code.message
     )

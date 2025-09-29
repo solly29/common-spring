@@ -9,12 +9,12 @@ package com.solly.commonspring.vo
  *
  */
 
-interface CommonResultCode {
+interface CommonResultCodeInterface {
     val code: String
     val message: String
 }
 
-enum class ResultCode(override val code: String, override val message: String) : CommonResultCode {
+enum class CommonResultCode(override val code: String, override val message: String) : CommonResultCodeInterface {
     OK("100", "성공"), // 성공
 
     NOT_FOUND_ERROR("E100", "일치하는 데이터가 없습니다."), // 일치하는 데이터가 없음

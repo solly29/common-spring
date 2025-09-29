@@ -18,6 +18,8 @@ import kotlin.collections.map
 import kotlin.collections.toTypedArray
 import kotlin.jvm.Throws
 
+// TODO FileUtil은 Object로 생성, 그리고 파일 확장자 매핑을 properties로 가능하도록
+
 class FileUtil(
     private val dirPath: String
 ) {
