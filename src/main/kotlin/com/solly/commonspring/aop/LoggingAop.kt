@@ -21,10 +21,11 @@ class LoggingAop (
 ) {
 
     @Pointcut(
-            "@annotation(org.springframework.web.bind.annotation.PostMapping) || " +
+            "(@annotation(org.springframework.web.bind.annotation.PostMapping) || " +
             "@annotation(org.springframework.web.bind.annotation.PutMapping) || " +
             "@annotation(org.springframework.web.bind.annotation.DeleteMapping) || " +
-            "@annotation(org.springframework.web.bind.annotation.GetMapping)"
+            "@annotation(org.springframework.web.bind.annotation.GetMapping)) &&" +
+            "!(within(org.springdoc..*) || within(springfox.documentation..*))"
     )
     private fun logging() {}
 
@@ -32,7 +33,12 @@ class LoggingAop (
     @Before("logging()")
     fun loggingBefore(joinPoint: JoinPoint) {
         if(logProperties.logging) {
-            infoLog("URL : ${getRequestUrl(joinPoint, joinPoint.signature.declaringType)}")
+            try {
+                infoLog("URL : ${getRequestUrl(joinPoint, joinPoint.signature.declaringType)}")
+            } catch (e: Exception) {
+
+            }
+
         }
 
         if(logProperties.logging && logProperties.requestLog) {
